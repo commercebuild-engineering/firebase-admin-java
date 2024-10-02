@@ -21,13 +21,13 @@ package com.google.firebase.auth;
  */
 public class MultiFactorSettings {
 
-  private final PhoneMultiFactorInfo[] enrolledFactors;
+  private final MultiFactorInfo[] enrolledFactors;
 
-  public MultiFactorSettings(PhoneMultiFactorInfo[] enrolledFactors) {
+  public MultiFactorSettings(MultiFactorInfo[] enrolledFactors) {
     this.enrolledFactors = enrolledFactors;
   }
 
-  public PhoneMultiFactorInfo[] getEnrolledFactors() {
+  public MultiFactorInfo[] getEnrolledFactors() {
     return enrolledFactors;
   }
 }

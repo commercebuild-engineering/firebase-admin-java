@@ -24,6 +24,8 @@ import com.google.firebase.internal.Nullable;
  */
 public abstract class MultiFactorInfo {
 
+	public enum MfaType  { PHONE, TOTP }
+
   /**
    * The ID of the enrolled second factor. This ID is unique to the user.
    */
@@ -68,4 +70,6 @@ public abstract class MultiFactorInfo {
   public String getEnrollmentTime() {
     return enrollmentTime;
   }
+
+  public abstract MfaType getMfaType();
 }

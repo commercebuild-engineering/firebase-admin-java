@@ -70,9 +70,15 @@
     </scm>
 
     <distributionManagement>
+        <repository>
+            <id>platform-release</id>
+            <name>platform-release</name>
+            <url>https://nexus.dev-mysagestore.com/repository/platform-release</url>
+        </repository>
         <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <id>platform-snapshot</id>
+            <name>platform-snapshot</name>
+            <url>https://nexus.dev-mysagestore.com/repository/platform-snapshot</url>
         </snapshotRepository>
     </distributionManagement>
 
@@ -348,18 +354,6 @@
                 </executions>
             </plugin>
 
-            <!-- Deploy Phase -->
-            <plugin>
-                <groupId>org.sonatype.plugins</groupId>
-                <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>1.6.13</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <serverId>ossrh</serverId>
-                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
 

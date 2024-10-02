@@ -37,7 +37,12 @@ public class PhoneMultiFactorInfo extends MultiFactorInfo {
     this.unobfuscatedPhoneNumber = response.getUnobfuscatedPhoneInfo();
   }
 
-  public String getPhoneNumber() {
+	@Override
+	public MfaType getMfaType() {
+		return MfaType.PHONE;
+	}
+
+	public String getPhoneNumber() {
     return phoneNumber;
   }
 

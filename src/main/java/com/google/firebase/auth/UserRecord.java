@@ -85,12 +85,12 @@ public class UserRecord implements UserInfo {
     }
 
     if (response.getMfaInfo() == null || response.getMfaInfo().length == 0) {
-      this.multiFactor = new MultiFactorSettings(new PhoneMultiFactorInfo[0]);
+      this.multiFactor = new MultiFactorSettings(new MultiFactorInfo[0]);
     } else {
       int mfaInfoLength = response.getMfaInfo().length;
-      PhoneMultiFactorInfo[] multiFactorInfos = new PhoneMultiFactorInfo[mfaInfoLength];
+      MultiFactorInfo[] multiFactorInfos = new MultiFactorInfo[mfaInfoLength];
       for (int i = 0; i < multiFactorInfos.length; i++) {
-        multiFactorInfos[i] = new PhoneMultiFactorInfo(response.getMfaInfo()[i]);
+        multiFactorInfos[i] = new MultiFactorInfoFactory().create(response.getMfaInfo()[i]);
       }
       this.multiFactor = new MultiFactorSettings(multiFactorInfos);
     }

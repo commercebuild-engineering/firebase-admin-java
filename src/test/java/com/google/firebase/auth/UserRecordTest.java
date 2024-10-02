@@ -129,7 +129,7 @@ public class UserRecordTest {
     assertEquals("user", userRecord.getUid());
 
     assertNotNull(userRecord.getMultiFactor());
-    PhoneMultiFactorInfo[] enrolledFactors = userRecord.getMultiFactor().getEnrolledFactors();
+    PhoneMultiFactorInfo[] enrolledFactors = (PhoneMultiFactorInfo[]) userRecord.getMultiFactor().getEnrolledFactors();
     assertEquals(1, enrolledFactors.length);
     for (PhoneMultiFactorInfo multiFactorInfo : enrolledFactors) {
       assertEquals("53HG4HG45HG8G04GJ40J4G3J", multiFactorInfo.getUid());
