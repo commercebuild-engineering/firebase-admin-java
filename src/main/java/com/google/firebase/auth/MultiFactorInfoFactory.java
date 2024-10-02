@@ -6,7 +6,7 @@ public class MultiFactorInfoFactory {
 
 
 	public MultiFactorInfo create(GetAccountInfoResponse.MultiFactorInfo multiFactorInfo) {
-		if (multiFactorInfo.getPhoneInfo().isEmpty()){
+		if (multiFactorInfo.getPhoneInfo() != null && multiFactorInfo.getPhoneInfo().isEmpty()){
 			return new TotpMultiFactorInfo(multiFactorInfo);
 		}
 		return new PhoneMultiFactorInfo(multiFactorInfo);
