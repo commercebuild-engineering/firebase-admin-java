@@ -22,6 +22,7 @@ import com.google.api.client.util.Key;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -118,6 +119,19 @@ public final class Tenant {
       properties.put("enableEmailLinkSignin", emailLinkSignInEnabled);
       return this;
     }
+
+	  public CreateRequest setMFAEnabled() {
+		  properties.put("mfaConfig", Map.of(
+				  "state", "ENABLED",
+				  "enabledProviders", List.of("PHONE_SMS"),
+				  "providerConfigs", List.of(Map.of(
+						  "state", "ENABLED",
+						  "totpProviderConfig", Map.of("adjacentIntervals", 5)
+				  ))
+
+		  ));
+		  return this;
+	  }
 
     Map<String, Object> getProperties() {
       return ImmutableMap.copyOf(properties);
