@@ -46,7 +46,10 @@ import com.google.firebase.internal.ApiClientUtils;
 import com.google.firebase.internal.HttpRequestInfo;
 import com.google.firebase.internal.NonNull;
 import com.google.firebase.internal.Nullable;
+
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -291,6 +294,15 @@ final class FirebaseUserManager {
     String url = idpConfigMgtBaseUrl + getSamlUrlSuffix(providerId);
     return httpClient.sendRequest(HttpRequestInfo.buildGetRequest(url), SamlProviderConfig.class);
   }
+
+	void addAuthorizedDomain(String domain) throws FirebaseAuthException {
+		String url = idpConfigMgtBaseUrl + "/config";
+		HashMap map = httpClient.sendRequest(HttpRequestInfo.buildGetRequest(url), HashMap.class);
+		map.put("authorizedDomains", ((ArrayList)map.get("authorizedDomains")).add(domain));
+		HttpRequestInfo requestInfo = HttpRequestInfo.buildJsonPatchRequest(url, map)
+				.addParameter("updateMask", Joiner.on(",").join(AuthHttpClient.generateMask(map)));
+		httpClient.sendRequest(requestInfo, Map.class);
+	}
 
   ListOidcProviderConfigsResponse listOidcProviderConfigs(int maxResults, String pageToken)
       throws FirebaseAuthException {

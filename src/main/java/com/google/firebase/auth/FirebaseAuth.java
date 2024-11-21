@@ -111,4 +111,8 @@ public final class FirebaseAuth extends AbstractFirebaseAuth {
       return new FirebaseAuth(this);
     }
   }
+
+  public void addAuthorizedDomain(String domain) throws FirebaseAuthException {
+	  this.getUserManager().addAuthorizedDomain(domain);
+  }
 }
