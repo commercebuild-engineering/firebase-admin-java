@@ -298,7 +298,7 @@ final class FirebaseUserManager {
 	void addAuthorizedDomain(String domain) throws FirebaseAuthException {
 		String url = idpConfigMgtBaseUrl + "/config";
 		HashMap map = httpClient.sendRequest(HttpRequestInfo.buildGetRequest(url), HashMap.class);
-		map.put("authorizedDomains", ((ArrayList)map.get("authorizedDomains")).add(domain));
+		((ArrayList)map.get("authorizedDomains")).add(domain);
 		HttpRequestInfo requestInfo = HttpRequestInfo.buildJsonPatchRequest(url, map)
 				.addParameter("updateMask", Joiner.on(",").join(AuthHttpClient.generateMask(map)));
 		httpClient.sendRequest(requestInfo, Map.class);
