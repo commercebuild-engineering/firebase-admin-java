@@ -91,6 +91,24 @@ public final class FirebaseAuth extends AbstractFirebaseAuth {
     return new Builder();
   }
 
+	public void addAuthorizedDomain(String domain) throws FirebaseAuthException {
+		this
+				.getUserManager()
+				.addAuthorizedDomain(domain);
+	}
+
+	public void verifyDomain(String domain) throws FirebaseAuthException {
+		this
+				.getUserManager()
+				.verifyDomain(domain);
+	}
+
+	public void applyDomain(String domain) throws FirebaseAuthException {
+		this
+				.getUserManager()
+				.applyDomain(domain);
+	}
+
   static class Builder extends AbstractFirebaseAuth.Builder<Builder> {
 
     private Supplier<TenantManager> tenantManager;
@@ -107,12 +125,9 @@ public final class FirebaseAuth extends AbstractFirebaseAuth {
       return this;
     }
 
-    public FirebaseAuth build() {
-      return new FirebaseAuth(this);
-    }
+	  public FirebaseAuth build() {
+		  return new FirebaseAuth(this);
+	  }
   }
 
-  public void addAuthorizedDomain(String domain) throws FirebaseAuthException {
-	  this.getUserManager().addAuthorizedDomain(domain);
-  }
 }

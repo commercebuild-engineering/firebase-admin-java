@@ -76,11 +76,16 @@ final class FirebaseUserManager {
 
   private static final String ID_TOOLKIT_URL =
       "https://identitytoolkit.googleapis.com/%s/projects/%s";
+
+	private static final String ID_TOOLKIT_ADMIN_URL =
+			"https://identitytoolkit.googleapis.com/admin/%s/projects/%s";
+
   private static final String ID_TOOLKIT_URL_EMULATOR =
           "http://%s/identitytoolkit.googleapis.com/%s/projects/%s";
 
   private final String userMgtBaseUrl;
   private final String idpConfigMgtBaseUrl;
+  private final String adminUrl;
   private final JsonFactory jsonFactory;
   private final AuthHttpClient httpClient;
 
@@ -102,7 +107,7 @@ final class FirebaseUserManager {
       this.userMgtBaseUrl = idToolkitUrlV1 + "/tenants/" + tenantId;
       this.idpConfigMgtBaseUrl = idToolkitUrlV2 + "/tenants/" + tenantId;
     }
-
+	this.adminUrl = getIdToolkitAdminUrl(projectId, "v2");
     this.httpClient = new AuthHttpClient(jsonFactory, builder.requestFactory);
   }
 
@@ -112,6 +117,10 @@ final class FirebaseUserManager {
     }
     return String.format(ID_TOOLKIT_URL, version, projectId);
   }
+
+	private String getIdToolkitAdminUrl(String projectId, String version) {
+		return String.format(ID_TOOLKIT_ADMIN_URL, version, projectId);
+	}
 
   @VisibleForTesting
   void setInterceptor(HttpResponseInterceptor interceptor) {
@@ -301,6 +310,20 @@ final class FirebaseUserManager {
 		((ArrayList)map.get("authorizedDomains")).add(domain);
 		HttpRequestInfo requestInfo = HttpRequestInfo.buildJsonPatchRequest(url, map)
 				.addParameter("updateMask", Joiner.on(",").join(AuthHttpClient.generateMask(map)));
+		httpClient.sendRequest(requestInfo, Map.class);
+	}
+
+	void verifyDomain(String domain) throws FirebaseAuthException {
+		String url = adminUrl + "/domain:verify";
+		HttpRequestInfo requestInfo = HttpRequestInfo.buildJsonPostRequest(url, Map.of("domain", domain, "action", "VERIFY"));
+
+		httpClient.sendRequest(requestInfo, Map.class);
+	}
+
+	void applyDomain(String domain) throws FirebaseAuthException {
+		String url = adminUrl + "/domain:verify";
+		HttpRequestInfo requestInfo = HttpRequestInfo.buildJsonPostRequest(url, Map.of("domain", domain, "action", "APPLY"));
+
 		httpClient.sendRequest(requestInfo, Map.class);
 	}
 
